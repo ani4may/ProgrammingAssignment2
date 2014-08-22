@@ -1,6 +1,8 @@
+
 ## makecachematrix initilizes an object or a new matrix 
 
 makeCacheMatrix <- function(x = matrix()) {
+  
   i <- NULL
   set <- function(y) {
     x <<- y
@@ -13,11 +15,11 @@ makeCacheMatrix <- function(x = matrix()) {
   
 }
 
-
 ## cachesolve just solves the value of the matrix to return the inverse
 ## nothing much to describe except I changed the vector example by using solve() and 'i' in place of m
 
 cacheSolve <- function(x, ...) {
+  
   
   i <- x$getinverse()
   if(!is.null(i)) {
@@ -25,12 +27,17 @@ cacheSolve <- function(x, ...) {
     return(i)
   }
   data <- x$get()
-  i <- solve(data, ...)
-  x$setinverse(i)
-  i
+  d<-dim(data)
+  cond<-((d[1]) == (d[2]))   ## tests if matrix is square
+  if(cond)                  
+  {
+    i <- solve(data, ...)    ## solve function directly calculates inverse of a square matrix
+    x$setinverse(i)
+    i
+  }
+  else{message("not a square matrix")}  ## message when not a square matrix
 }
 
 ## steps to use function : 1. your_new_cache_matrix <- makeCacheMatrix( pass whatever matrix you like here)
 ##                         2. call cachesolve(your_new_cache_matrix)
 ##                         3. Voila!
-
