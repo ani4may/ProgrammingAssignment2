@@ -1,15 +1,36 @@
-## Put comments here that give an overall description of what your
-## functions do
-
-## Write a short comment describing this function
+## makecachematrix initilizes an object or a new matrix 
 
 makeCacheMatrix <- function(x = matrix()) {
-
+  i <- NULL
+  set <- function(y) {
+    x <<- y
+    i <<- NULL
+  }
+  get <- function() x
+  setinverse <- function(inverse) i <<- inverse
+  getinverse <- function() i
+  list( set = set , get = get, setinverse = setinverse, getinverse = getinverse)
+  
 }
 
 
-## Write a short comment describing this function
+## cachesolve just solves the value of the matrix to return the inverse
+## nothing much to describe except I changed the vector example by using solve() and 'i' in place of m
 
 cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+  
+  i <- x$getinverse()
+  if(!is.null(i)) {
+    message("getting cached data")
+    return(i)
+  }
+  data <- x$get()
+  i <- solve(data, ...)
+  x$setinverse(i)
+  i
 }
+
+## steps to use function : 1. your_new_cache_matrix <- makeCacheMatrix( pass whatever matrix you like here)
+##                         2. call cachesolve(your_new_cache_matrix)
+##                         3. Voila!
+
