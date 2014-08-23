@@ -27,15 +27,19 @@ cacheSolve <- function(x, ...) {
     return(i)
   }
   data <- x$get()
-  d<-dim(data)
-  cond<-((d[1]) == (d[2]))   ## tests if matrix is square
-  if(cond)                  
+  if(class(data) == "matrix")   ## tests if a matrix is passed
   {
-    i <- solve(data, ...)    ## solve function directly calculates inverse of a square matrix
-    x$setinverse(i)
-    i
+    d<-dim(data)
+    cond<-((d[1]) == (d[2]))   ## tests if matrix is square
+    if(cond)                  
+    {
+      i <- solve(data, ...)    ## solve function directly calculates inverse of a square matrix
+      x$setinverse(i)
+      i
+    }
+    else{message("not a square matrix")}  ## message when not a square matrix
   }
-  else{message("not a square matrix")}  ## message when not a square matrix
+  else{message("not a matrix buddy! try something like matrix(c(1,2,3),rows=2,cols=2")}
 }
 
 ## steps to use function : 1. your_new_cache_matrix <- makeCacheMatrix( pass whatever matrix you like here)
